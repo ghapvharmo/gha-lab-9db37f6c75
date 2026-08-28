@@ -16,7 +16,7 @@ jobs:
   changes:
     timeout-minutes: 20
     name: Detect changes
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: read
     outputs:
@@ -39,7 +39,7 @@ jobs:
   check-label:
     timeout-minutes: 20
     needs: [changes]
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     name: Check for E2E label
     outputs:
       run-e2e: ${{ steps.check-if-pr-has-label.outputs.run-e2e == 'true' && (github.event.action != 'labeled' || (github.event.action == 'labeled' && github.event.label.name == 'ready-for-e2e')) }}
@@ -181,7 +181,7 @@ jobs:
     timeout-minutes: 20
     needs: [changes, lint, type-check, unit-test, integration-test, check-label, build, build-api-v1, build-api-v2, e2e, e2e-api-v2, e2e-embed, e2e-embed-react, e2e-app-store]
     if: always()
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     steps:
       - name: fail if conditional jobs failed
         if: needs.changes.outputs.has-files-requiring-all-checks == 'true' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled'))

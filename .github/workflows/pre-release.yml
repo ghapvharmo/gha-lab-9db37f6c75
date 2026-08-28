@@ -7,7 +7,7 @@ jobs:
   changes:
     timeout-minutes: 20
     name: Detect changes
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     permissions:
       pull-requests: read
     outputs:
@@ -72,7 +72,7 @@ jobs:
     timeout-minutes: 20
     needs: [changes, lint, build, e2e, e2e-app-store, e2e-embed, e2e-embed-react]
     if: always()
-    runs-on: buildjet-2vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     steps:
       - name: fail if conditional jobs failed
         if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled')

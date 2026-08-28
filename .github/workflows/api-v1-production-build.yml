@@ -40,7 +40,7 @@ env:
 jobs:
   build:
     name: Build API v1
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: ubuntu-latest
     timeout-minutes: 30
     services:
       postgres:
@@ -65,7 +65,7 @@ jobs:
       - uses: ./.github/actions/yarn-install
       - uses: ./.github/actions/cache-db
       - name: Cache API v1 production build
-        uses: buildjet/cache@3e70d19e31d6a8030aeddf6ed8dbe601f94d09f4 # v4
+        uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4.0.2 (era pin as of 2024-07-24)
         id: cache-api-v1-build
         env:
           cache-name: api-v1-build
