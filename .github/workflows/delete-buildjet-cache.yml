@@ -1,0 +1,18 @@
+name: Manually Delete BuildJet Cache
+on:
+  workflow_dispatch:
+    inputs:
+      cache_key:
+        description: "BuildJet Cache Key to Delete"
+        required: true
+        type: string
+jobs:
+  manually-delete-buildjet-cache:
+    timeout-minutes: 20
+    runs-on: buildjet-2vcpu-ubuntu-2204
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: buildjet/cache-delete@7184288b8396c4492a56728c47dd286fbd1e96ae # v1
+        with:
+          cache_key: ${{ inputs.cache_key }}

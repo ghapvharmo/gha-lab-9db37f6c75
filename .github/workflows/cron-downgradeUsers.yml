@@ -1,0 +1,22 @@
+name: Cron - downgradeUsers
+
+on:
+  workflow_dispatch:
+  # "Scheduled workflows run on the latest commit on the default or base branch."
+  # — https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#schedule
+jobs:
+  cron-downgradeUsers:
+    timeout-minutes: 20
+    env:
+      APP_URL: ${{ secrets.APP_URL }}
+      CRON_API_KEY: ${{ secrets.CRON_API_KEY }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: cURL request
+        if: ${{ env.APP_URL && env.CRON_API_KEY }}
+        run: |
+          curl ${{ secrets.APP_URL }}/api/cron/downgradeUsers \
+            -X POST \
+            -H 'content-type: application/json' \
+            -H 'authorization: ${{ secrets.CRON_API_KEY }}' \
+            -sSf

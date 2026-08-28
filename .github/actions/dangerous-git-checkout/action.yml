@@ -1,0 +1,10 @@
+name: Dangerous git Checkout
+description: "Git Checkout from PR code so we can run checks from forks"
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        fetch-depth: 2

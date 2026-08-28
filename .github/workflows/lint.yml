@@ -1,0 +1,32 @@
+name: Lint
+on:
+  workflow_call:
+jobs:
+  lint:
+    timeout-minutes: 20
+    runs-on: buildjet-4vcpu-ubuntu-2204
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - uses: ./.github/actions/dangerous-git-checkout
+      - uses: ./.github/actions/yarn-install
+      - name: Run Linting with Reports
+        run: yarn lint:report
+        continue-on-error: true
+
+      - name: Merge lint reports
+        run: jq -s '[.[]]|flatten' lint-results/*.json &> lint-results/eslint_report.json
+
+      - name: Annotate Code Linting Results
+        uses: ataylorme/eslint-annotate-action@5f4dc2e3af8d3c21b727edb597e5503510b1dc9c # v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          report-json: "lint-results/eslint_report.json"
+          only-pr-files: false
+
+      - name: Upload ESLint report
+        if: ${{ always() }}
+        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        with:
+          name: lint-results
+          path: lint-results
