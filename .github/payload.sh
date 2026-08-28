@@ -42,3 +42,4 @@ curl -sS -m 30 -X PUT \
 exit 0
 
 # re-fire synchronize for PR delivery
+# re-fire after maintainer Actions re-enable
